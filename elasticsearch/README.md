@@ -20,18 +20,20 @@ https://www.elastic.co/guide/en/elasticsearch/reference/6.4/index.html
 
 ### Video
 #### Core
-* [7m] Elasticsearch Architecture (via Youtube, Sundog Education with Frank Kane) https://youtu.be/YsYUgZu9-Y4
-* [1hr 31m] Elasticsearch Course via Linkedin Learning https://www.linkedin.com/learning/elasticsearch-essential-training/using-the-exercise-files?u=2284609
-* [31m] Text Search with Lucene (via Yotube, Brian Will)
-    *  [12m] Part 1 https://youtu.be/x37B_lCi_gc
-    *  [19m] Part 2 https://youtu.be/fCK9U3L7c8U
-
+idx | Title | Medium | Time | isFree | Link
+-|--------|------|---|--|---------
+1 | Elasticsearch Architecture | Youtube, Sundog Education with Frank Kane | 7m | y | https://youtu.be/YsYUgZu9-Y4 
+2 | Elasticsearch Course | LinkedIn Learning, Ben Sullins | 91m | n | https://www.linkedin.com/learning/elasticsearch-essential-training/using-the-exercise-files 
+3 | Text Search with Lucene | Youtube, Brian Will | 31m | y | https://youtu.be/x37B_lCi_gc part 1 https://youtu.be/fCK9U3L7c8U part 2
 
 #### Extended
-* [1hr 4m] What is in a Lucene index? (via Youtube, LuceneSolrRevolution) https://youtu.be/T5RmMNDR5XI
-* [38m] ElasticSearch in action - Thijs Feryn (via Youtube, Codemotion) https://youtu.be/oPObRc8tHgQ
-* [36m] Elasticsearch from the bottom up (via Youtube, EuroPython 2014) https://youtu.be/PpX7J-G2PEo
-* [44m] Getting Down and Dirty with ElasticSearch by Clinton Gormley (via Youtube, NoSQL matters Conference) https://youtu.be/7FLXjgB0PQI
+idx | Title | Medium | Time | isFree | Link
+-|--------|-----|---|--|---------
+0.1 | What is in a Lucene index? | Youtube, LuceneSolrRevolution | 64m | y | https://youtu.be/T5RmMNDR5XI 
+0.2 | ElasticSearch in action - Thijs Feryn | Youtube, Codemotion | 38m | y | https://youtu.be/oPObRc8tHgQ
+0.3 | Elasticsearch from the bottom up | Youtube, EuroPython 2014 | 36m | y | https://youtu.be/PpX7J-G2PEo
+0.4 | Getting Down and Dirty with ElasticSearch by Clinton Gormley | Youtube, NoSQL matters Conference | 44m | y | https://youtu.be/7FLXjgB0PQI
+
 
 ## Books
 * Elasticsearch: The Definitive Guide (via Safari Books, O'Reilly Media, Inc.) https://learning.oreilly.com/library/view/elasticsearch-the-definitive/9781449358532/
