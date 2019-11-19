@@ -3,7 +3,7 @@
 # MacOS
 https://docs.docker.com/docker-for-mac/install/
 
-# Windows (there may be limitationss)
+# Windows (there may be limitations)
 https://docs.docker.com/docker-for-windows/install/
 ```
 
