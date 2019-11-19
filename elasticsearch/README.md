@@ -1,3 +1,4 @@
+# https://www.elastic.co/
 # About
 Elasticsearch is a distributed, open source search and analytics engine for all types of data, including textual, numerical, geospatial, structured, and unstructured. Elasticsearch is built on Apache Lucene and was first released in 2010 by Elasticsearch N.V. (now known as Elastic). Known for its simple REST APIs, distributed nature, speed, and scalability, Elasticsearch is the central component of the Elastic Stack, a set of open source tools for data ingestion, enrichment, storage, analysis, and visualization. Commonly referred to as the ELK Stack (after Elasticsearch, Logstash, and Kibana), the Elastic Stack now includes a rich collection of lightweight shipping agents known as Beats for sending data to Elasticsearch.
 
@@ -20,14 +21,14 @@ https://www.elastic.co/guide/en/elasticsearch/reference/6.4/index.html
 
 ### Video
 #### Core
-idx | Title | Medium | Time | isFree | Link
+\# | title | platform | duration | free | link
 -|--------|------|---|--|---------
 1 | Elasticsearch Architecture | Youtube, Sundog Education with Frank Kane | 7m | y | https://youtu.be/YsYUgZu9-Y4 
 2 | Elasticsearch Course | LinkedIn Learning, Ben Sullins | 91m | n | https://www.linkedin.com/learning/elasticsearch-essential-training/using-the-exercise-files 
 3 | Text Search with Lucene | Youtube, Brian Will | 31m | y | https://youtu.be/x37B_lCi_gc part 1 https://youtu.be/fCK9U3L7c8U part 2
 
 #### Extended
-idx | Title | Medium | Time | isFree | Link
+\#  | title | platform | duration | free | link
 -|--------|-----|---|--|---------
 0.1 | What is in a Lucene index? | Youtube, LuceneSolrRevolution | 64m | y | https://youtu.be/T5RmMNDR5XI 
 0.2 | ElasticSearch in action - Thijs Feryn | Youtube, Codemotion | 38m | y | https://youtu.be/oPObRc8tHgQ
@@ -36,7 +37,9 @@ idx | Title | Medium | Time | isFree | Link
 
 
 ## Books
-* Elasticsearch: The Definitive Guide (via Safari Books, O'Reilly Media, Inc.) https://learning.oreilly.com/library/view/elasticsearch-the-definitive/9781449358532/
+\#  | title | platform | free | link
+-|--------|-----|---|---------
+1 | Elasticsearch: The Definitive Guide | Safari Books, O'Reilly Media, Inc. | n |  https://learning.oreilly.com/library/view/elasticsearch-the-definitive/9781449358532/
 
 # Local Environment (hands-on)
 To get started with a local hands on demo environment
