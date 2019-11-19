@@ -8,7 +8,7 @@ Elasticsearch is a distributed, open source search and analytics engine for all 
 * Kibana (GUI for elasticsearch)
 
 
-## Course-work
+## Learning
 ### Documentation
 * Elasticsearch's official documentation is quite complete.  It is however more of a reference rather than a complete guide.
 https://www.elastic.co/guide/en/elasticsearch/reference/6.4/index.html
