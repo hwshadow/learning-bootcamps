@@ -14,13 +14,14 @@ gron transforms JSON into discrete assignments to make it easier to grep for wha
 
 ## Learning
 ### Documentation
-* jq official documentation https://stedolan.github.io/jq/manual/
+* jq official documentation https://stedolan.github.io/jq/manual/ `this is your best resource hands down`
 * jq online playground https://jqplay.org/
 * gron official documentation https://github.com/tomnomnom/gron/blob/master/README.mkd#usage
 * yq&xq official documentation https://github.com/kislyuk/yq/blob/master/README.rst#synopsis
 
 ### Texts
 * jq quickstart https://stedolan.github.io/jq/tutorial/
+* jq equivalents to unix commands http://andrew.gibiansky.com/blog/command-line/jq-primer/
 
 # Local Environment (hands-on)
 To get started with a local hands on demo environment
