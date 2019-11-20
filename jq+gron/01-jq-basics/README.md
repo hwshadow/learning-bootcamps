@@ -1,11 +1,11 @@
 # feeding jq data
 > assumes `cd /project/jq+gron/01-jq-basics`
 
-unix `pipes` to jq
+unix pipes to jq
 ```bash
 cat ./single.json | jq '.'
 ```
-input file as `argument`
+input file as argument
 ```bash
 jq '.' ./single.json
 ```
@@ -30,7 +30,7 @@ jq '.' ./single.json
       "end_price": 29.95,
       "returned": false
     },
-.....
+    {"-----CONTENT_TRUNCATED-----":"-----CONTENT_TRUNCATED-----"}
   ],
 "user.name": "jqlot1",
 "user.email": "jqlot@example.com"
@@ -38,7 +38,7 @@ jq '.' ./single.json
 ```
 
 # filter to a specific
-field, `output json`
+field, output json
 ```bash
 jq '.text' ./single.json
 ```
@@ -46,7 +46,7 @@ jq '.text' ./single.json
 "this document showcases a user's purchases for 6 months"
 ```
 
-field, `output raw`
+field, output raw
 ```bash
 jq -r '.text' ./single.json
 ```
@@ -54,7 +54,7 @@ jq -r '.text' ./single.json
 this document showcases a user's purchases for 6 months
 ```
 
-field with `special character`
+field with special character
 ```bash
 jq '.["user.email"]' ./single.json
 ```
@@ -62,7 +62,7 @@ jq '.["user.email"]' ./single.json
 "jqlot@example.com"
 ```
 
-`array`, output compact
+array, output compact
 ```bash
 jq '.items_per_month' ./single.json
 ```
@@ -70,7 +70,7 @@ jq '.items_per_month' ./single.json
 [1,3,1,1,1,0]
 ```
 
-`array element`
+array element
 ```bash
 jq '.items_per_month[1]' ./single.json
 ```
@@ -80,9 +80,7 @@ jq '.items_per_month[1]' ./single.json
 
 
 # slurping data
-> assumes you have downloaded sample documents ```
-cd /projectelasticsearch/01-sample-data-by-elastic
-```
+> assumes you have downloaded sample documents `cd /projectelasticsearch/01-sample-data-by-elastic`
 
 slurpes in `ldjson/ndjson/jsonl` format and to an array
 ```bash
