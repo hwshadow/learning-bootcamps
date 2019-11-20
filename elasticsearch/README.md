@@ -17,24 +17,24 @@ https://www.elastic.co/guide/en/elasticsearch/reference/6.4/index.html
     *  Lucene Official http://lucene.apache.org/core/3_5_0/queryparsersyntax.html
     *  IBM Lucene Query terminology https://www.ibm.com/support/knowledgecenter/SSSH5A_8.0.1/com.ibm.rational.clearquest.user_web.doc/topics/c_fts_term_syntax.htm
 
-### Video
+### Videos
 #### Core
 \# | title | platform | duration | free | link
 -|--------|------|---|--|---------
-1 | Elasticsearch Architecture | Youtube, Sundog Education with Frank Kane | 7m | y | https://youtu.be/YsYUgZu9-Y4 
-2 | Elasticsearch Course | LinkedIn Learning, Ben Sullins | 91m | n | https://www.linkedin.com/learning/elasticsearch-essential-training/using-the-exercise-files 
+1 | Elasticsearch Architecture | Youtube, Sundog Education with Frank Kane | 7m | y | https://youtu.be/YsYUgZu9-Y4
+2 | Elasticsearch Course | LinkedIn Learning, Ben Sullins | 91m | n | https://www.linkedin.com/learning/elasticsearch-essential-training/using-the-exercise-files
 3 | Text Search with Lucene | Youtube, Brian Will | 31m | y | https://youtu.be/x37B_lCi_gc part 1 https://youtu.be/fCK9U3L7c8U part 2
 
 #### Extended
 \#  | title | platform | duration | free | link
 -|--------|-----|---|--|---------
-0.1 | What is in a Lucene index? | Youtube, LuceneSolrRevolution | 64m | y | https://youtu.be/T5RmMNDR5XI 
+0.1 | What is in a Lucene index? | Youtube, LuceneSolrRevolution | 64m | y | https://youtu.be/T5RmMNDR5XI
 0.2 | ElasticSearch in action - Thijs Feryn | Youtube, Codemotion | 38m | y | https://youtu.be/oPObRc8tHgQ
 0.3 | Elasticsearch from the bottom up | Youtube, EuroPython 2014 | 36m | y | https://youtu.be/PpX7J-G2PEo
 0.4 | Getting Down and Dirty with ElasticSearch by Clinton Gormley | Youtube, NoSQL matters Conference | 44m | y | https://youtu.be/7FLXjgB0PQI
 
 
-## Books
+## Texts
 \#  | title | platform | free | link
 -|--------|-----|---|---------
 1 | Elasticsearch: The Definitive Guide | Safari Books, O'Reilly Media, Inc. | n |  https://learning.oreilly.com/library/view/elasticsearch-the-definitive/9781449358532/
@@ -42,7 +42,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/6.4/index.html
 # Local Environment (hands-on)
 To get started with a local hands on demo environment
 ```bash
-# see repo_deps for pre-requisite softwar
+# see repo_deps for pre-requisite software
 docker-compose up -d
 
 # to access your local elasticsearch API
@@ -53,9 +53,4 @@ http://localhost:5601/app/kibana#/
 
 # to trash your environment
 docker-compose down
-```
-
-Sample data set can be found here
-```
-https://www.elastic.co/guide/en/kibana/6.4/tutorial-load-dataset.html
 ```

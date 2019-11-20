@@ -1,0 +1,71 @@
+{
+  "text": "this document showcases a user's purchases for 6 months",
+  "items_per_month": [1,3,1,1,1,0],
+  "items_purchased": [
+    {
+      "item": "WOODEN_CHAIR_BROWN",
+      "orderid": 13001,
+      "sku":"F1040011",
+      "wholesale_cost": 15.55,
+      "msrp": 32.50,
+      "end_price": 29.95,
+      "returned":false
+    },
+    {
+      "item": "VIDEO_GAME_RED_DEAD_REDEMPTION",
+      "orderid": 12303,
+      "sku":"E1130039",
+      "wholesale_cost": 50.00,
+      "msrp": 59.99,
+      "end_price": 45.10,
+      "returned":false
+    },
+    {
+      "item": "4PORT_SWITCH",
+      "sku":"E9993",
+      "orderid": 12554,
+      "wholesale_cost": 20.00,
+      "msrp": 25.00,
+      "end_price": 26.00,
+      "returned":false
+    },
+    {
+      "item": "BLACK_GARBAGE_CAN",
+      "orderid": 9999,
+      "sku":"F200",
+      "wholesale_cost": 10.00,
+      "msrp": 15.00,
+      "end_price": 15.00,
+      "returned":false
+    },
+    {
+      "item": "HDMI_CABLE_12_FT",
+      "orderid": 12303,
+      "sku":"F4040",
+      "wholesale_cost": 9.00,
+      "msrp": 16.00,
+      "end_price": 14.00,
+      "returned":false
+    },
+    {
+      "item": "GOLD_PICTURE_FRAME",
+      "orderid": 15178,
+      "sku":"F35091",
+      "wholesale_cost": 10.00,
+      "msrp": 12.00,
+      "end_price": 12.99,
+      "returned":false
+    },
+    {
+      "item": "50_INCH_FLAT_SCREEN",
+      "orderid": 12303,
+      "sku":"E50100",
+      "wholesale_cost": 699.00,
+      "msrp": 799.00,
+      "end_price": 789.99,
+      "returned":true
+    }
+  ],
+  "user.name": "jqlot1",
+  "user.email": "jqlot@example.com"
+}
