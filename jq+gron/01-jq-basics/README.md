@@ -1,7 +1,5 @@
 # feeding jq data
-> assumes ```
-cd /project/jq+gron/01-jq-basics
-```
+> assumes `cd /project/jq+gron/01-jq-basics`
 
 unix `pipes` to jq
 ```bash
@@ -44,7 +42,7 @@ field, `output json`
 ```bash
 jq '.text' ./single.json
 ```
-> ```json
+```json
 "this document showcases a user's purchases for 6 months"
 ```
 
@@ -52,7 +50,7 @@ field, `output raw`
 ```bash
 jq -r '.text' ./single.json
 ```
-> ```json
+```json
 this document showcases a user's purchases for 6 months
 ```
 
@@ -60,7 +58,7 @@ field with `special character`
 ```bash
 jq '.["user.email"]' ./single.json
 ```
-> ```json
+```json
 "jqlot@example.com"
 ```
 
@@ -68,7 +66,7 @@ jq '.["user.email"]' ./single.json
 ```bash
 jq '.items_per_month' ./single.json
 ```
-> ```json
+```json
 [1,3,1,1,1,0]
 ```
 
@@ -76,7 +74,7 @@ jq '.items_per_month' ./single.json
 ```bash
 jq '.items_per_month[1]' ./single.json
 ```
-> ```json
+```json
 3
 ```
 
@@ -90,7 +88,7 @@ slurpes in `ldjson/ndjson/jsonl` format and to an array
 ```bash
 jq --slurp '.| .[0]' ./accounts.json
 ```
-> ```json
+```json
 {
   "index": {
     "_id": "1"
