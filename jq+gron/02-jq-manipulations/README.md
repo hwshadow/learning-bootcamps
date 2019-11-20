@@ -1,7 +1,7 @@
 > assumes `cd /project/jq+gron/01-jq-basics`
 
 # restructure an object
-to an `array`
+to an array
 ```bash
 jq -c '. | [.["user.name"], .["user.email"]]' ./single.json
 ```
@@ -9,7 +9,7 @@ jq -c '. | [.["user.name"], .["user.email"]]' ./single.json
 ["jqlot1","jqlot@example.com"]
 ```
 
-to an `object`
+to an object
 ```bash
 jq -c '. | {"user": .["user.name"], "email": .["user.email"]}' ./single.json
 ```
@@ -17,7 +17,7 @@ jq -c '. | {"user": .["user.name"], "email": .["user.email"]}' ./single.json
 {"user":"jqlot1","email":"jqlot@example.com"}
 ```
 
-to a `string`
+to a string
 ```bash
 jq -c '. | "\(.["user.name"])'"'"'s email is \(.["user.email"])" ' ./single.json
 ```
@@ -26,13 +26,13 @@ jq -c '. | "\(.["user.name"])'"'"'s email is \(.["user.email"])" ' ./single.json
 ```
 
 # add field(s)
-adds `region`
+adds `region` field
 ```bash
 jq '. += {"region":"USA"} ' ./single.json
 ```
 ```json
 {
-...
+"-----CONTENT_TRUNCATED-----":"-----CONTENT_TRUNCATED-----",
 "user.name": "jqlot1",
 "user.email": "jqlot@example.com",
 "region": "USA"
@@ -40,7 +40,7 @@ jq '. += {"region":"USA"} ' ./single.json
 ```
 
 # remove a field(s)
-removes `items_purchased` and `text`
+removes `items_purchased` and `text` fields
 ```bash
 jq -c '. | del(.["items_purchased"],.text)' ./single.json
 ```
@@ -49,7 +49,7 @@ jq -c '. | del(.["items_purchased"],.text)' ./single.json
 ```
 
 # select based on criteria
-contains the substring `WOOD`
+return item object that contain the substring `WOOD`
 ```bash
 jq -c '.items_purchased[] | select(.item | contains("WOOD"))' ./single.json
 ```
@@ -57,7 +57,7 @@ jq -c '.items_purchased[] | select(.item | contains("WOOD"))' ./single.json
 {"item":"WOODEN_CHAIR_BROWN","orderid":13001,"sku":"F1040011","wholesale_cost":15.55,"msrp":32.5,"end_price":29.95,"returned":false}
 ```
 
-matches regexp `(RED|BLACK|BROWN)`
+return item names which match regexp `(RED|BLACK|BROWN)`
 ```bash
 jq -c '.items_purchased[] | select(.item | test("(RED|BLACK|BROWN)")) | .item' ./single.json
 ```
@@ -67,7 +67,7 @@ jq -c '.items_purchased[] | select(.item | test("(RED|BLACK|BROWN)")) | .item' .
 "BLACK_GARBAGE_CAN"
 ```
 
-matches items `sold higher than msrp`
+return array of item objects which sold higher than msrp value
 ```bash
 jq '.items_purchased | ( . | map(select(.end_price-.msrp >0))) ' ./single.json
 ```
