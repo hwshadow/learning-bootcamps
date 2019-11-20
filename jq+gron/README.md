@@ -28,8 +28,8 @@ To get started with a local hands on demo environment
 ```bash
 # see repo_deps for pre-requisite software, also elasticsearch/01-sample-data-by-elastic
 docker-compose run jqgron-learn
-bash-3.2$ cd /project/elasticsearch/01-sample-data-by-elastic && \
-jq '.' ./accounts.json
+bash-3.2$ cd /project/jq+gron/01-jq-basics && \
+jq '.' ./single.json
 
 
 # to trash your environment

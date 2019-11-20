@@ -54,6 +54,14 @@ jq -r '.text' ./single.json
 this document showcases a user's purchases for 6 months
 ```
 
+nested field
+```bash
+jq '.items_purchased[3].sku' ./single.json
+```
+```json
+"F200"
+```
+
 field with special character
 ```bash
 jq '.["user.email"]' ./single.json
