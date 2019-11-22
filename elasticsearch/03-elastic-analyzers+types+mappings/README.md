@@ -11,7 +11,7 @@ Due to elasticsearch's design, changing mappings almost always requires a reinde
 
 # JIT schema generation, visual aid
 |field|doc-1|realized-type|ingest-result-1||d2|rt|ir2||d3|rt|ir3|
-|---|---|---|---||---|---|---||---|---|---|
+|---|---|---|---|---|---|---|---||---|---|---|
 |msg|null||success||string|string|success||object|string|`FAILURE`|
 |error|object|object|success||object|object|success||string|object|`FAILURE`|
 |count|string|string|success||int |string|success `(typecast)`||string|string|success|
