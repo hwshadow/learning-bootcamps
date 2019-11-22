@@ -59,7 +59,7 @@ Your index mapping may differ environment to environment. Be sure if your are un
 curl -sk 'http://localhost:9200/${INDEX}/_mapping?pretty'
 ```
 
-# What is an analyzer doing?
+# What is the (string) analyzer doing?
 Search is all about tokens.  Tokens are produced by analyzers, in order to understand search you need to understand the tokenization process.
 
 Let's walk through a couple analyzers below using the [Analyze API](https://www.elastic.co/guide/en/elasticsearch/reference/current/_testing_analyzers.html), which can be used anytime.
