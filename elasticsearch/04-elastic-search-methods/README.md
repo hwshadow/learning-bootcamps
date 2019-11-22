@@ -7,10 +7,10 @@ We will explore the power of lucene a little later.
 
 There are 4 common methods of executing queries against Elasticsearch (outside of GUIs like kibana and grafana):
 ## [URI search](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/search-uri-request.html) via Lucene query
- - `q` parameter is a URL-encoded Lucene query
- - `size` parameter sets the max documents returned (up to 10k)
- - `sort` parameter (not shown) is useful for sorting, in the form of `fieldName:asc/fieldName:desc`
- - good for quick and simple lucene queries
+|`q` parameter is a URL-encoded Lucene query
+|`size` parameter sets the max documents returned (up to 10k)
+|`sort` parameter (not shown) is useful for sorting, in the form of `fieldName:asc/fieldName:desc`
+|good for quick and simple lucene queries
 
 ```bash
 curl -XGET 'localhost:9200/shakespeare/_search?size=1&q=text_entry:"arms"&pretty'
@@ -207,17 +207,31 @@ Thoughout this section I will attempt to show both the lucene query and query ds
 }
 ```
 Keep in mind the queries below are not optimized for performance, this is not an exhaustive list, and we can't cover every permutation; just enough to get you started. For complete dsl reference see [query dsl](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/query-dsl.html).  High-level be aware of:
-* [Full-text queries](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/full-text-queries.html)
-* [Term-level queries](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/term-level-queries.html) - will analyze the query string before executing, the term-level queries operate on the exact terms that are stored in the inverted index
-  - term query - Find documents which contain the exact term specified in the field specified.
-  - terms query - Find documents which contain any of the exact terms specified in the field specified.
-  - terms_set query - Find documents which match with one or more of the specified terms. The number of terms that must match depend on the specified minimum should match field or script.
-  - range query - Find documents where the field specified contains values (dates, numbers, or strings) in the range specified.
-  - exists query - Find documents where the field specified contains any non-null value.
-  - prefix query -Find documents where the field specified contains terms which begin with the exact prefix specified.
-  - wildcard query - Find documents where the field specified contains terms which match the pattern specified, where the pattern supports single character wildcards (?) and multi-character wildcards (*)
-  - regexp query - Find documents where the field specified contains terms which match the regular expression specified.
-  - fuzzy query - Find documents where the field specified contains terms which are fuzzily similar to the specified term. Fuzziness is measured as a Levenshtein edit distance of 1 or 2.
-  - type query - Find documents of the specified type.
-  - ids query - Find documents with the specified type and IDs.
+* [Full-text queries](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/full-text-queries.html) -  usually used for running full text queries on full text fields like the body of an email. They understand how the field being queried is analyzed and will apply each field’s analyzer (or search_analyzer) to the query string before executing
+
+|type|description|
+|---|---|
+|match query|The standard query for performing full text queries, including fuzzy matching and phrase or proximity queries.|
+|match_phrase query|Like the match query but used for matching exact phrases or word proximity matches.|
+|match_phrase_prefix query|The poor man’s search-as-you-type. Like the match_phrase query, but does a wildcard search on the final word.|
+|multi_match query|The multi-field version of the match query.|
+|common terms query|A more specialized query which gives more preference to uncommon words.|
+|query_string query|Supports the compact Lucene query string syntax, allowing you to specify AND|OR|NOT conditions and multi-field search within a single query string. For expert users only.|
+|simple_query_string query|A simpler, more robust version of the query_string syntax suitable for exposing directly to users.|
+
+* [Term-level queries](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/term-level-queries.html)- will analyze the query string before executing, the term-level queries operate on the exact terms that are stored in the inverted index
+
+|type|description|
+|---|---|
+|term query|Find documents which contain the exact term specified in the field specified.|
+|terms query|Find documents which contain any of the exact terms specified in the field specified.|
+|terms_set query|Find documents which match with one or more of the specified terms. The number of terms that must match depend on the specified minimum should match field or script.|
+|range query|Find documents where the field specified contains values (dates, numbers, or strings) in the range specified.|
+|exists query|Find documents where the field specified contains any non-null value.|
+|prefix query|Find documents where the field specified contains terms which begin with the exact prefix specified.|
+|wildcard query|Find documents where the field specified contains terms which match the pattern specified, where the pattern supports single character wildcards (?) and multi-character wildcards (*)|
+|regexp query|Find documents where the field specified contains terms which match the regular expression specified.|
+|fuzzy query|Find documents where the field specified contains terms which are fuzzily similar to the specified term. Fuzziness is measured as a Levenshtein edit distance of 1 or 2.|
+|ids query|Find documents with the specified type and IDs.|
+
 * [Difference between filter and query context](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/query-filter-context.html)
