@@ -74,6 +74,7 @@ curl -sk 'http://localhost:9200/_analyze?pretty' -H 'Content-type: application/j
  "analyzer": "standard",
  "text":     "The 2 QUICK Brown-Foxes jumped over the lazy dog'"'"'s bone."
 }' | jq '[.tokens[].token]'
+
 #resulting tokens
 [
   "the",
@@ -98,6 +99,8 @@ curl -sk 'http://localhost:9200/_analyze?pretty' -H 'Content-type: application/j
  "analyzer": "keyword",
  "text":     "The 2 QUICK Brown-Foxes jumped over the lazy dog'"'"'s bone."
 }' | jq '[.tokens[].token]'
+
+#resulting tokens
 [
   "The 2 QUICK Brown-Foxes jumped over the lazy dog's bone."
 ]
@@ -111,6 +114,7 @@ curl -sk 'http://localhost:9200/_analyze?pretty' -H 'Content-type: application/j
  "analyzer": "whitespace",
  "text":     "The 2 QUICK Brown-Foxes jumped over the lazy dog'"'"'s bone."
 }' | jq '[.tokens[].token]'
+
 #resulting tokens
 [
   "The",
@@ -140,6 +144,7 @@ curl -sk 'http://localhost:9200/_analyze?pretty' -H 'Content-type: application/j
   "filter":  [ "lowercase", "asciifolding" ],
   "text":      "Is this déja vu?"
 }' | jq '[.tokens[].token]'
+
 #resulting tokens
 [
   "is",
