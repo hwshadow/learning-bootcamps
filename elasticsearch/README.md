@@ -1,5 +1,4 @@
 # https://www.elastic.co/
-# https://grafana.com/
 
 # Technologies
 * [Elasticsearch](https://www.elastic.co/products/elasticsearch) (JSON search engine)
