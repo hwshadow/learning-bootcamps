@@ -1,4 +1,4 @@
-# Common operations
+# Query exampless
 
 ## match_all
 The simplest query you can execute; it will match everything, in lucene you use a `wildcard` character to make this
@@ -192,10 +192,9 @@ curl -H "Content-Type: application/x-ndjson" -XGET 'localhost:9200/_msearch?pret
 ```
 
 ## boolean filters (implementation of kibana filter)
-This is another way to do multiple conditions, more performat
+This is another way to do multiple conditions, offers better performance
 
-> lucene style |
-> DOES NOT APPLY
+> lucene style |  DOES NOT APPLY
 
 > dsl-style |
 
@@ -281,3 +280,65 @@ curl -H "Content-Type: application/x-ndjson" -XGET 'localhost:9200/_msearch?pret
   ]
 }
 ```
+
+# Beware the mappings !!!
+Take the `modsec` index for example, it has a somewhat complicated mapping.
+```bash
+#Display mapping
+jq '.' ./01-elastic-sample-data/modsec_mapping.json
+#Display sample document
+jq '.' ./01-elastic-sample-data/modsec_normalized.json
+```
+
+Lets try and find the sample document in elasticsearch.  Say we are interested in the `request` field and we want to find the substring `%645&vars`, which clearly exists in this document.
+
+## Attempt #1
+> lucene style |
+
+```bash
+request:%645&vars
+```
+
+> dsl-style |
+
+```json
+{"bool":{"must":[{"query_string":{"query":"request:%645&vars","analyze_wildcard":true,"default_field":"*"}},{"range":{"@timestamp":{"gte":1565670037521,"lte":1574096829530,"format":"epoch_millis"}}}],"filter":[],"should":[],"must_not":[]}}
+```
+
+```bash
+curl -H "Content-Type: application/x-ndjson" -XGET 'localhost:9200/_msearch?pretty' --data-binary '
+{"index" : "shakespeare"}
+{"size":1, "query":{ "bool":{"must":[{"query_string":{"query":"request:%645&vars","analyze_wildcard":true,"default_field":"*"}},{"range":{"@timestamp":{"gte":1565670037521,"lte":1574096829530,"format":"epoch_millis"}}}],"filter":[],"should":[],"must_not":[]} }}
+'
+#result - matched 0 documents, we asked for 1 returned
+{
+  "responses" : [
+    {
+      "took" : 1,
+      "timed_out" : false,
+      "_shards" : {
+        "total" : 5,
+        "successful" : 5,
+        "skipped" : 0,
+        "failed" : 0
+      },
+      "hits" : {
+        "total" : 0,
+        "max_score" : null,
+        "hits" : [ ]
+      },
+      "status" : 200
+    }
+  ]
+}
+```
+
+Hmmmm why didn't that work?  Let's look at the mapping
+```bash
+curl -sk 'localhost:9200/modsec/_mapping?pretty' | jq '.modsec.mappings.doctype.properties | .request'
+{
+  "type": "text",
+  "index": false
+}
+```
+Ahhh, the field is not indexed which means it is not searchable...
