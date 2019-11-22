@@ -123,6 +123,32 @@ consisting of 3 masters (one is authoritative) and 3 data/ingest nodes.
 * tied to an index
 * stored in a shard
 * JSON format
+* indexed by a unique ID "_id"
+
+a sample document from the bank index
+```json
+{
+      "_index" : "bank",
+      "_type" : "account",
+      "_id" : "25",
+      "_score" : 1.0,
+      "_source" : {
+        "account_number" : 25,
+        "balance" : 40540,
+        "firstname" : "Virginia",
+        "lastname" : "Ayala",
+        "age" : 39,
+        "gender" : "F",
+        "address" : "171 Putnam Avenue",
+        "employer" : "Filodyne",
+        "email" : "virginiaayala@filodyne.com",
+        "city" : "Nicholson",
+        "state" : "PA"
+      }
+}
+```
+
+> we have ignored addressing "_type" because it is deprecated.
 
 # [Shards](https://www.elastic.co/guide/en/elasticsearch/reference/6.2/_basic_concepts.html#getting-started-shards-and-replicas)
 * a physical bucket of data
@@ -131,13 +157,15 @@ consisting of 3 masters (one is authoritative) and 3 data/ingest nodes.
 * a shards gets associated with single node
 * two types: primary and replica
 
-Example an Index with 3 shards and 2 replicas
+#### example index shard allocation
+with 3 shards and 2 replicas
 
 |||||
 |---|---|---|---|
-| p1  | p2  | p3   | the authorative copies partitions of data |
-| r1.1  | r1.2  | r1.3   | a secondary copy of data |
-| r2.1  | r2.2  | r2.3   | a tertiary copy of data |
+| s1p  | s2p  | s3p   | the authorative copies partitions of data |
+| s1r1  | s2r1  | r3r1   | a secondary copy of data |
+| s1r2  | s2r2  | s3r2   | a tertiary copy of data |
+||||||
 
 check out the shards in a cluster for the index `bank`
 ```bash
@@ -156,6 +184,7 @@ index shard prirep state      docs  store ip        node
 ```
 Notice how all the `r` replica shards are mark as `UNASSIGNED`, this is be cause our index has a replication factor of 1, but the test cluster only has a single member.  Shard1Replica1 can't live on the same node as Shard1Primary; since we have no second node we can't place (allocate) the replicas.  This is why our cluster is perpetually in a "yellow" status.  Maximum replica count for an index is `Data node count - 1`.
 
+#### shard types
 * Primary shard
   - always at least N shards in the cluster per index shard designation
   - multiple primary shards for the same index can exist on the same node; though not optimal
