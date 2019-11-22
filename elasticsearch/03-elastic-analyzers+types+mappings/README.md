@@ -26,7 +26,7 @@ A document will index into elastic if it obeys the existing schema; or the ignor
 The string type arguably the most confusing type, due to the many avaliable indexing permutations.
 
 The default mapping for string data (as of >= 5.x) is:
-```
+```json
 {
   "{FIELD_NAME}": {
     "type" : "text",
