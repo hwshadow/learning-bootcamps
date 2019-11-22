@@ -49,12 +49,103 @@ This, by default, double indexes each field in roughly the following manner:
   - given `The 'smart' fox cries Aloud!`
   - stored and searchable as a **collection of normalized terms** `["the","smart","fox","cries","aloud"]` -> `{FIELD_NAME}:"{TERM}"`
   - useful when you want to search for a piece of something.
-  - *example: Find essay documents that contain a particular word from a set of 100k*
+  - *example: Find essay documents that contain a particular word from a set of 100k documents or find documents with urls that contain the word `shop`*
 
-You can actually analyze text in many many other ways, the name of the game with elasticsearch is to index data as close to your search pattern as possible. [Customize string analyzers](https://www.elastic.co/guide/en/elasticsearch/reference/current/analyzer.html) can help with this effort, such as n-grams and auto-completion analyzers; these are not the default however.
+You can actually analyze text in many other ways, the name of the game with elasticsearch is index data as close to your search pattern as possible. [Customize string analyzers](https://www.elastic.co/guide/en/elasticsearch/reference/current/analyzer.html) can help with this effort, such as n-grams and auto-complete analyzers; these are not the default however.
+
+Your index mapping may differ environment to environment. Be sure if your are unfamilar with an index, to check it's mapping before issuing a query, it could save you a lot of headache.
+
+```bash
+curl -sk 'http://localhost:9200/${INDEX}/_mapping?pretty'
+```
 
 # What is an analyzer doing?
-Let's walk through several analyzers below via the [Analyze API](https://www.elastic.co/guide/en/elasticsearch/reference/current/_testing_analyzers.html)
+Search is all about tokens.  Tokens are produced by analyzers, in order to understand search you need to understand the tokenization process.
+
+Let's walk through a couple analyzers below using the [Analyze API](https://www.elastic.co/guide/en/elasticsearch/reference/current/_testing_analyzers.html), which can be used anytime.
+
+> the jq filter below is omitting information, remove it to see ordinal and other extended information
+
+#### [standard (text)](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-standard-analyzer.html); the default analyzer
+input is tokenized based on grammar (using the Unicode Text Segmentation algorithm, as specified in Unicode Standard Annex #29). works with most languages. special characters and whitespace is often removed.
+```bash
+curl -sk 'http://localhost:9200/_analyze?pretty' -H 'Content-type: application/json' -d '
+{
+ "analyzer": "standard",
+ "text":     "The 2 QUICK Brown-Foxes jumped over the lazy dog'"'"'s bone."
+}' | jq '[.tokens[].token]'
+[
+  "the",
+  "2",
+  "quick",
+  "brown",
+  "foxes",
+  "jumped",
+  "over",
+  "the",
+  "lazy",
+  "dog's",
+  "bone"
+]
+```
+
+#### [keyword (keyword)](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-keyword-analyzer.html)
+input is tokenized as a single, unmodified term
+```bash
+curl -sk 'http://localhost:9200/_analyze?pretty' -H 'Content-type: application/json' -d '
+{
+ "analyzer": "keyword",
+ "text":     "The 2 QUICK Brown-Foxes jumped over the lazy dog'"'"'s bone."
+}' | jq '[.tokens[].token]'
+[
+  "The 2 QUICK Brown-Foxes jumped over the lazy dog's bone."
+]
+```
+
+#### [whitespace](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-whitespace-analyzer.html)
+input is tokenized on whitespace
+```bash
+curl -sk 'http://localhost:9200/_analyze?pretty' -H 'Content-type: application/json' -d '
+{
+ "analyzer": "whitespace",
+ "text":     "The 2 QUICK Brown-Foxes jumped over the lazy dog'"'"'s bone."
+}' | jq '[.tokens[].token]'
+[
+  "The",
+  "2",
+  "QUICK",
+  "Brown-Foxes",
+  "jumped",
+  "over",
+  "the",
+  "lazy",
+  "dog's",
+  "bone."
+]
+```
+
+#### custom
+if you are a Database admin responsible for storing and indexing data you can create your own anaylzer using a combination of
+* [tokenizers](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-tokenizers.html) - receives a stream of characters, breaks it up into individual tokens (usually individual words), and outputs a stream of tokens
+* [token filters](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-tokenfilters.html) - accept a stream of tokens from a tokenizer and can modify tokens
+* [character filters](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-charfilters.html) - used to preprocess the stream of characters before it is passed to the tokenizer
+* [normalizers](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-normalizers.html) - similar to an analyzer, but lacking a tokenizer. solely comprised of token filters and character filters. they may only emit a single tokens.
+
+```bash
+curl -sk 'http://localhost:9200/_analyze?pretty' -H 'Content-type: application/json' -d '
+{
+  "tokenizer": "standard",
+  "filter":  [ "lowercase", "asciifolding" ],
+  "text":      "Is this déja vu?"
+}' | jq '[.tokens[].token]'
+[
+  "is",
+  "this",
+  "deja",
+  "vu"
+]
+```
+be sure to see the other built-in [analyzers](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-analyzers.html) and play around
 
 
 # More types!
