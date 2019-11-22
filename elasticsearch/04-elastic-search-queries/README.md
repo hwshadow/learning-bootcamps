@@ -197,7 +197,7 @@ curl -H "Content-Type: application/x-ndjson" -XGET 'localhost:9200/_msearch?pret
 - not going to elaborate on this (sorry, eventually, just not yet); beware of dragons
 
 # Some practical application
-Thoughout this section I will attempt to show both the lucene query and query dsl variants.  Keep in mind, you can  execute a lucene query from any JSON search method using the [query_string](https://www.elastic.co/guide/en/elasticsearch/reference/6.5/query-dsl-query-string-query.html) block which takes a raw lucene query.
+Thoughout this section I will attempt to show both the lucene query and query dsl variants.  Keep in mind, you can execute a raw lucene query from any JSON search method using the [query_string](https://www.elastic.co/guide/en/elasticsearch/reference/6.5/query-dsl-query-string-query.html) full-text search block.
 
 ```json
 {
@@ -206,33 +206,36 @@ Thoughout this section I will attempt to show both the lucene query and query ds
   }
 }
 ```
-Also keep in mine queries below are not optimized for performance, this will be covered in a later section.  Finally this is not an exhaustive list.
-
-for complete dsl reference see [query dsl](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/query-dsl.html)
+Keep in mind the queries below are not optimized for performance, this is not an exhaustive list, and we can't cover every permutation; just enough to get you started. For complete dsl reference see [query dsl](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/query-dsl.html).  High-level be aware of:
+* [Full-text queries](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/full-text-queries.html)
+* [Term-level queries](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/term-level-queries.html)
+* [Difference between filter and query context](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/query-filter-context.html)
 
 ## match_all
 The simplest query you can execute, it will match everything using a `wildcard` character in lucene, or a match
+> lucene style |
+> `*` represents a wildcard, notice the field selector is absent
+
 ```bash
-#lucene-style
 *
-# `*` represents a wildcard, notice the field selector is absent
+```
 
-#dsl-style
+> dsl-style | `{}` a blank object also works or a blank payload
+
+```json
 {"query" : {"match_all" : {}}}
+```
 
-# {}   a blank object also works
-#      or a blank payload
-
+```bash
 curl -H "Content-Type: application/x-ndjson" -XGET 'localhost:9200/_msearch?pretty' --data-binary '
 {"index" : "shakespeare"}
 {"size":0, "query" : {"match_all" : {}}}
 '
-
 #result - matched 112k documents, we omit them with size 0
 {
   "responses" : [
     {
-      "took" : 21,
+      "took" : 1,
       "timed_out" : false,
       "_shards" : {
         "total" : 5,
@@ -250,3 +253,7 @@ curl -H "Content-Type: application/x-ndjson" -XGET 'localhost:9200/_msearch?pret
   ]
 }
 ```
+
+## boolean conditons
+
+## invertion / exclusion
