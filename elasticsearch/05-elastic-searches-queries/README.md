@@ -63,7 +63,7 @@ curl -H "Content-Type: application/x-ndjson" -XGET 'localhost:9200/_msearch?pret
 {"index" : "shakespeare"}
 {"size":1, "query" : { "term":  { "text_entry": "cross" }} }}
 '
-#result - matched 76 documents, we asked for 1 return
+#result - matched 76 documents, we asked for 1 returned
 {
   "responses" : [
     {
@@ -191,4 +191,93 @@ curl -H "Content-Type: application/x-ndjson" -XGET 'localhost:9200/_msearch?pret
 }
 ```
 
-## invertion / exclusion
+## boolean filters (implementation of kibana filter)
+This is another way to do multiple conditions, more performat
+
+> lucene style |
+> DOES NOT APPLY
+
+> dsl-style |
+
+```json
+{
+  "bool": {
+    "must": [
+      {
+        "query_string": {
+          "query": "*"
+        }
+      },
+      {
+        "match_phrase": {
+          "text_entry": {
+            "query": "never"
+          }
+        }
+      },
+      {
+        "match_phrase": {
+          "text_entry": {
+            "query": "cross"
+          }
+        }
+      }
+    ],
+    "filter": [],
+    "should": [],
+    "must_not": [
+      {
+        "match_phrase": {
+          "text_entry": {
+            "query": "dare"
+          }
+        }
+      }
+    ]
+  }
+}
+```
+
+```bash
+curl -H "Content-Type: application/x-ndjson" -XGET 'localhost:9200/_msearch?pretty' --data-binary '
+{"index" : "shakespeare"}
+{"size":1, "query" : {"bool":{"must":[{"query_string":{"query":"*"}},{"match_phrase":{"text_entry":{"query":"never"}}},{"match_phrase":{"text_entry":{"query":"cross"}}}],"filter":[],"should":[],"must_not":[{"match_phrase":{"text_entry":{"query":"dare"}}}]}} }}
+'
+#result - matched 1 document, we asked for 1 returned
+{
+  "responses" : [
+    {
+      "took" : 7,
+      "timed_out" : false,
+      "_shards" : {
+        "total" : 5,
+        "successful" : 5,
+        "skipped" : 0,
+        "failed" : 0
+      },
+      "hits" : {
+        "total" : 1,
+        "max_score" : 14.381853,
+        "hits" : [
+          {
+            "_index" : "shakespeare",
+            "_type" : "doc",
+            "_id" : "66785",
+            "_score" : 14.381853,
+            "_source" : {
+              "type" : "line",
+              "line_id" : 66786,
+              "play_name" : "Merry Wives of Windsor",
+              "speech_number" : 11,
+              "line_number" : "5.5.35",
+              "speaker" : "FALSTAFF",
+              "text_entry" : "never else cross me thus."
+            }
+          }
+        ]
+      },
+      "status" : 200
+    }
+  ]
+}
+```
