@@ -238,8 +238,12 @@ will analyze the query string before executing, the term-level queries operate o
 |ids|Find documents with the specified type and IDs.|
 
 ## [Difference between filter and query context](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/query-filter-context.html)
-* A query clause used in query context answers the question “How well does this document match this query clause?” Besides deciding whether or not the document matches, the query clause also calculates a _score representing how well the document matches, relative to other documents.
-* In filter context, a query clause answers the question “Does this document match this query clause?” The answer is a simple Yes or No — no scores are calculated
+* query clause =  “How well does this document match this query clause?”
+  - the query clause also calculates a _score representing how well the document matches, relative to other documents.
+  - often used on full-text fields like the body of an email (mapping_type = text)
+* filter context = “Does this document match this query clause?”
+  - the answer is a simple Yes or No — no scores are calculated
+  - boolean outcomes
 
 > Use query clauses in query context for conditions which should affect the score of matching documents (i.e. how well does the document match), and use all other query clauses in filter context.
 
