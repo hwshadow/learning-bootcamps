@@ -6,6 +6,7 @@
 * communication is achieved via both REST API and internal Transport Protocol.
 
 check basic cluster health with
+
 ```bash
 # Cluster health
 curl -sk 'http://localhost:9200/_cluster/health?pretty'
@@ -26,6 +27,7 @@ curl -sk 'http://localhost:9200/_cluster/health?pretty'
   "task_max_waiting_in_queue_millis" : 0,
   "active_shards_percent_as_number" : 50.98039215686274
 }```
+
 ```bash
 # Thread pools
 curl -sk 'http://localhost:9200/_cat/thread_pool?v' #format=json for json-format
