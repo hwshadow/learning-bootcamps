@@ -7,15 +7,15 @@ A selling point of elasticsearch is it's ability to coerce a schema/mappings on-
 For each new index created, without external input (a [static mappings](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html) or [dynamic template](https://www.elastic.co/guide/en/elasticsearch/reference/current/dynamic-templates.html)) elastic will try and build a schema referencing the interpretted type for each field it's first observation. This schema is considered law until the index is rotated. Documents which do not align with this schema are rejected, unless the [ignore_malformed](https://www.elastic.co/guide/en/elasticsearch/reference/7.4/ignore-malformed.html) option is enabled. Due to elasticsearch's design, changing mappings almost always requires a reindex of all in-scope data; elasticsearch is blazing fast because it pays it's search cost mostly at index time, rather than search time.
 
 # JIT schema generation, visual aid
-|field|doc-1|realized-type|ingest-results1|d2|rt|ir2|d3|rt|ir3|
-|---|---|---|---|---|---|---|---|---|---|
-|msg|||success|string|string|success|json object|string|`FAILURE`|
-|error|json object|json object|success|json object|json object|success|string|json object|`FAILURE`|
-|count|string|string|success|int |string|success `(typecast)`|string|string|success|
-|data_a|array[int,string,int,int]|array[int...]|`FAILURE`|array[int,int,int] |array[int...]|success||array[int...]|success|
-|timing|int|int|success|int|int|success|array[int,int,int]|int|`FAILURE`|
-|nitrox_code|||success|||success|int|int|success|
-|  -- |  -- |  -- | `FAILURE`  | --  | --  | success  | --  | --  |  `FAILURE` |
+|field|doc-1|realized-type|ingest-results1||d2|rt|ir2||d3|rt|ir3|
+|---|---|---|---||---|---|---||---|---|---|
+|msg|null||success||string|string|success||object|string|`FAILURE`|
+|error|object|object|success||object|object|success||string|object|`FAILURE`|
+|count|string|string|success||int |string|success `(typecast)`||string|string|success|
+|data_a|array[int,string,int,int]|array[int...]|`FAILURE`||array[int,int,int] |array[int...]|success||null|array[int...]|success|
+|timing|int|int|success||int|int|success||array[int,int,int]|int|`FAILURE`|
+|nitrox_code|null||success||null||success||int|int|success|
+|  -- |  -- |  -- | `FAILURE`  | | --  | --  | `success` | | --  | --  |  `FAILURE` |
 
 A document will index into elastic if it obeys the existing schema; or the ignore_malformed option is used (which discards the conflicting value). **It is imperative** that producers from elastic **Do NOT mingle conflicting types within the same field namespace**, with the expectation the document will successfully index.
 
