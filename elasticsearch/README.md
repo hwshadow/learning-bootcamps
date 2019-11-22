@@ -55,6 +55,9 @@ curl -sk localhost:9200
 # to access your local kibana GUI
 http://localhost:5601/app/kibana#/
 
+# to access your local grafana GUI
+http://localhost:3000/
+
 # to trash your environment
 docker-compose down
 ```
