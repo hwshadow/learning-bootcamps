@@ -45,8 +45,8 @@ yellow open   modsec              nbGOoglzQaaEf5johkoSbQ   5   1          1     
 
 
 ```bash
-curl 'localhost:9200/shakespeare/_mapping?pretty'
 curl 'localhost:9200/modsec/_mapping?pretty'
+curl 'localhost:9200/shakespeare/_mapping?pretty'
 ```
 ```json
 {
