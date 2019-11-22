@@ -1,0 +1,253 @@
+{
+    "mappings" : {
+      "doctype" : {
+        "properties" : {
+          "@headers" : {
+            "properties" : {
+              "accept" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "accept-charset" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "accept-encoding" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "accept-language" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "cache-control" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "connection" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "content-length" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "content-type" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "expires" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "host" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "max-forwards" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "origin" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "pragma" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "referer" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "user-agent" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "via" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "x-forwarded-for" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              }
+            }
+          },
+          "parser_delta" : {
+            "type" : "double"
+          },
+          "parser_host" : {
+            "type" : "keyword",
+            "fields" : {
+              "full_text_search" : {
+                "type" : "text"
+              }
+            },
+            "ignore_above" : 256
+          },
+          "parser_id" : {
+            "type" : "keyword",
+            "ignore_above" : 4096
+          },
+          "@parser_timestamp" : {
+            "type" : "date"
+          },
+          "@request" : {
+            "type" : "keyword",
+            "ignore_above" : 4096
+          },
+          "@signature_names" : {
+            "type" : "keyword",
+            "ignore_above" : 4096
+          },
+          "@signature_names_len" : {
+            "type" : "long"
+          },
+          "@source_ip_geo" : {
+            "properties" : {
+              "city_name" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "country_code3" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "location" : {
+                "type" : "geo_point"
+              },
+              "postal_code" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "region_name" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              }
+            }
+          },
+          "@timestamp" : {
+            "type" : "date"
+          },
+          "user_agent" : {
+            "properties" : {
+              "build" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "device" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "major" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "minor" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "name" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "os" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "os_major" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "os_minor" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "os_name" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              },
+              "patch" : {
+                "type" : "keyword",
+                "ignore_above" : 4096
+              }
+            }
+          },
+          "dest_ip" : {
+            "type" : "ip"
+          },
+          "dest_port" : {
+            "type" : "long"
+          },
+          "geo_location" : {
+            "type" : "keyword",
+            "ignore_above" : 4096
+          },
+          "ip_client" : {
+            "type" : "ip"
+          },
+          "method" : {
+            "type" : "keyword",
+            "ignore_above" : 4096
+          },
+          "policy" : {
+            "type" : "keyword",
+            "ignore_above" : 4096
+          },
+          "protocol" : {
+            "type" : "keyword",
+            "ignore_above" : 4096
+          },
+          "query_string" : {
+            "type" : "text",
+            "index" : false
+          },
+          "request" : {
+            "type" : "text",
+            "index" : false
+          },
+          "request_status" : {
+            "type" : "keyword",
+            "ignore_above" : 4096
+          },
+          "response_code" : {
+            "type" : "keyword",
+            "ignore_above" : 4096
+          },
+          "signature_names" : {
+            "type" : "text",
+            "index" : false
+          },
+          "src_port" : {
+            "type" : "long"
+          },
+          "alert_id" : {
+            "type" : "keyword",
+            "ignore_above" : 4096
+          },
+          "tags" : {
+            "type" : "keyword",
+            "ignore_above" : 4096
+          },
+          "uri" : {
+            "type" : "keyword",
+            "fields" : {
+              "full_text_search" : {
+                "type" : "text"
+              }
+            },
+            "ignore_above" : 256
+          },
+          "violations" : {
+            "type" : "text",
+            "index" : false
+          },
+          "x_forwarded_for_header_value" : {
+            "type" : "keyword",
+            "ignore_above" : 4096
+          }
+        }
+      }
+    }
+}

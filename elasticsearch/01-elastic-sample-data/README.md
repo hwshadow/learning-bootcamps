@@ -18,8 +18,13 @@ curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/bank/account
 curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/shakespeare/doc/_bulk?pretty' --data-binary @shakespeare_6.0.json
 curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/_bulk?pretty' --data-binary @logs.jsonl
 ```
+3) insert samples into elastic (_with mappings_)
+```bash
+curl -H 'Content-Type: application/json' -XPUT 'localhost:9200/modsec' --data-binary @modsec_mapping.json
+curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/modsec/_bulk?pretty' --data-binary @modsec_normalized.json
+```
 
-3) verify data in elasticsearch
+4) verify data in elasticsearch
 ```bash
 curl 'localhost:9200/_cat/indices?v'
 ```
@@ -32,6 +37,7 @@ yellow open   logstash-2015.05.18 GjM8gZQdRaOUO3A1TcAsFw   5   1       4631     
 yellow open   logstash-2015.05.19 hg1fVRMyTJufuK3ia15tCw   5   1       4624            0     21.5mb         21.5mb
 yellow open   bank                91Xgpu8TQhS96rGhIrtzeg   5   1       1000            0    475.1kb        475.1kb
 yellow open   logstash-2015.05.20 -6JV0MfsS8CZtLHKrz8lqw   5   1       4750            0     23.6mb         23.6mb
+yellow open   modsec              nbGOoglzQaaEf5johkoSbQ   5   1          1            0     24.9kb         24.9kb
 ```
 
 # inspecting mappings
@@ -40,6 +46,7 @@ yellow open   logstash-2015.05.20 -6JV0MfsS8CZtLHKrz8lqw   5   1       4750     
 
 ```bash
 curl 'localhost:9200/shakespeare/_mapping?pretty'
+curl 'localhost:9200/modsec/_mapping?pretty'
 ```
 ```json
 {
