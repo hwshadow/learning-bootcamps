@@ -207,7 +207,9 @@ Thoughout this section I will attempt to show both the lucene query and query ds
 }
 ```
 Keep in mind the queries below are not optimized for performance, this is not an exhaustive list, and we can't cover every permutation; just enough to get you started. For complete dsl reference see [query dsl](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/query-dsl.html).  High-level be aware of:
-* [Full-text queries](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/full-text-queries.html) -  usually used for running full text queries on full text fields like the body of an email. They understand how the field being queried is analyzed and will apply each field’s analyzer (or search_analyzer) to the query string before executing
+
+## [Full-text queries](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/full-text-queries.html)
+usually used for running full text queries on full text fields like the body of an email. They understand how the field being queried is analyzed and will apply each field’s analyzer (or search_analyzer) to the query string before executing
 
 |type|description|
 |---|---|
@@ -219,7 +221,8 @@ Keep in mind the queries below are not optimized for performance, this is not an
 |query_string query|Supports the compact Lucene query string syntax, allowing you to specify AND|OR|NOT conditions and multi-field search within a single query string. For expert users only.|
 |simple_query_string query|A simpler, more robust version of the query_string syntax suitable for exposing directly to users.|
 
-* [Term-level queries](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/term-level-queries.html)- will analyze the query string before executing, the term-level queries operate on the exact terms that are stored in the inverted index
+## [Term-level queries](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/term-level-queries.html)
+will analyze the query string before executing, the term-level queries operate on the exact terms that are stored in the inverted index
 
 |type|description|
 |---|---|
@@ -234,4 +237,4 @@ Keep in mind the queries below are not optimized for performance, this is not an
 |fuzzy query|Find documents where the field specified contains terms which are fuzzily similar to the specified term. Fuzziness is measured as a Levenshtein edit distance of 1 or 2.|
 |ids query|Find documents with the specified type and IDs.|
 
-* [Difference between filter and query context](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/query-filter-context.html)
+## [Difference between filter and query context](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/query-filter-context.html)
