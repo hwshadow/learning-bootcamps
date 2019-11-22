@@ -208,5 +208,16 @@ Thoughout this section I will attempt to show both the lucene query and query ds
 ```
 Keep in mind the queries below are not optimized for performance, this is not an exhaustive list, and we can't cover every permutation; just enough to get you started. For complete dsl reference see [query dsl](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/query-dsl.html).  High-level be aware of:
 * [Full-text queries](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/full-text-queries.html)
-* [Term-level queries](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/term-level-queries.html)
+* [Term-level queries](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/term-level-queries.html) - will analyze the query string before executing, the term-level queries operate on the exact terms that are stored in the inverted index
+  - term query - Find documents which contain the exact term specified in the field specified.
+  - terms query - Find documents which contain any of the exact terms specified in the field specified.
+  - terms_set query - Find documents which match with one or more of the specified terms. The number of terms that must match depend on the specified minimum should match field or script.
+  - range query - Find documents where the field specified contains values (dates, numbers, or strings) in the range specified.
+  - exists query - Find documents where the field specified contains any non-null value.
+  - prefix query -Find documents where the field specified contains terms which begin with the exact prefix specified.
+  - wildcard query - Find documents where the field specified contains terms which match the pattern specified, where the pattern supports single character wildcards (?) and multi-character wildcards (*)
+  - regexp query - Find documents where the field specified contains terms which match the regular expression specified.
+  - fuzzy query - Find documents where the field specified contains terms which are fuzzily similar to the specified term. Fuzziness is measured as a Levenshtein edit distance of 1 or 2.
+  - type query - Find documents of the specified type.
+  - ids query - Find documents with the specified type and IDs.
 * [Difference between filter and query context](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/query-filter-context.html)
