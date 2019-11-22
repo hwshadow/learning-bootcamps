@@ -23,7 +23,7 @@ Due to elasticsearch's design, changing mappings almost always requires a reinde
 A document will index into elastic if it obeys the existing schema; or the ignore_malformed option is used (which discards the conflicting value). **It is imperative** that producers from elastic **Do NOT mingle conflicting types within the same field namespace**, with the expectation the document will successfully index.
 
 # String type
-The string type arguably the most confusing type, due to the many avaliable indexing permutations.
+The string type is arguably the most confusing type, due to the many avaliable indexing permutations.
 
 The default mapping for string data (as of >= 5.x) is:
 ```json
