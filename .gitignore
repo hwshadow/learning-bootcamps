@@ -2,3 +2,4 @@ elasticsearch/01-sample-data-by-elastic/shakespeare*
 elasticsearch/01-sample-data-by-elastic/accounts*
 elasticsearch/01-sample-data-by-elastic/logs*
 **/*.zip
+**/*.db
