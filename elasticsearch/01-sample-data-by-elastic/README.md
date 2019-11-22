@@ -21,11 +21,11 @@ curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/_bulk?pretty
 
 3) verify data in elasticsearch
 ```bash
-curl localhost:9200/_cat/indices?v
+curl 'localhost:9200/_cat/indices?v'
 ```
 should look like this
-```
-bash-3.2$ curl localhost:9200/_cat/indices?v
+```bash
+bash-3.2$ curl 'localhost:9200/_cat/indices?v'
 health status index               uuid                   pri rep docs.count docs.deleted store.size pri.store.size
 yellow open   shakespeare         4QYCPm9zSWegvRv4aB1mWA   5   1     111392            0     22.5mb         22.5mb
 yellow open   logstash-2015.05.18 GjM8gZQdRaOUO3A1TcAsFw   5   1       4631            0     22.2mb         22.2mb
@@ -39,7 +39,7 @@ yellow open   logstash-2015.05.20 -6JV0MfsS8CZtLHKrz8lqw   5   1       4750     
 
 
 ```bash
-curl localhost:9200/shakespeare/_mapping?pretty
+curl 'localhost:9200/shakespeare/_mapping?pretty'
 ```
 ```json
 {
