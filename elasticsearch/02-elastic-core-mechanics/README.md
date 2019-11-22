@@ -31,7 +31,7 @@ curl -sk 'http://localhost:9200/_cluster/health?pretty'
 
 ```bash
 # Thread pools
-curl -sk 'http://localhost:9200/_cat/thread_pool?v' #format=json for json-format
+curl -sk 'http://localhost:9200/_cat/thread_pool?v' #?v&format=json for json-format
 node_name name                active queue rejected
 dGc_XMg   analyze                  0     0        0
 dGc_XMg   fetch_shard_started      0     0        0
@@ -85,13 +85,13 @@ by default every node in the cluster can handle HTTP and Transport traffic
 
 cluster membership and node status can be checked with
 ```bash
-curl -sk 'http://localhost:9200/_cat/nodes?v' #format=json for json-format
+curl -sk 'http://localhost:9200/_cat/nodes?v' #?v&format=json for json-format
 ip        heap.percent ram.percent cpu load_1m load_5m load_15m node.role master name
 127.0.0.1           40          29   0    0.01    0.02     0.00 mdi       *      dGc_XMg
 ```
 the master designation (signified by `*`) is the "elected" cluster leader. our test cluster has only a single node, which handles all three primary role, including the master role. a slightly more complex cluster looks like this.
 ```bash
-curl -sk 'http://es-master2-test:9200/_cat/nodes?v' #format=json for json-format
+curl -sk 'http://es-master2-test:9200/_cat/nodes?v' #?v&format=json for json-format
 ip            heap.percent ram.percent cpu load_1m load_5m load_15m node.role master name
 192.168.1.97           70         100   6    2.20    1.58     1.49 di        -      es-data3-test
 192.168.1.94            7          98   0    0.01    0.05     0.05 m         -      es-master3-test
