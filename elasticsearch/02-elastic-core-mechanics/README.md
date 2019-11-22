@@ -26,7 +26,8 @@ curl -sk 'http://localhost:9200/_cluster/health?pretty'
   "number_of_in_flight_fetch" : 0,
   "task_max_waiting_in_queue_millis" : 0,
   "active_shards_percent_as_number" : 50.98039215686274
-}```
+}
+```
 
 ```bash
 # Thread pools
@@ -185,7 +186,7 @@ index shard prirep state      docs  store ip        node
 Notice how all the `r` replica shards are mark as `UNASSIGNED`, this is be cause our index has a replication factor of 1, but the test cluster only has a single member.  Shard1Replica1 can't live on the same node as Shard1Primary; since we have no second node we can't place (allocate) the replicas.  This is why our cluster is perpetually in a "yellow" status.  Maximum replica count for an index is `Data node count - 1`.
 
 #### shard types
-* Primary shard
+* **primary shard**
   - always at least N shards in the cluster per index shard designation
   - multiple primary shards for the same index can exist on the same node; though not optimal
   - authorative for data
@@ -193,7 +194,7 @@ Notice how all the `r` replica shards are mark as `UNASSIGNED`, this is be cause
   - writes funnel through primaries, replicas are updated as needed from primaries
   - primaries can serve read operations
 
-* Replica shard
+* **replica shard**
   - a set of replicas are generated and distributed across the cluster for according to the replication count specified
   - cannot exist on the same node as the primary
   - cannot exist on the same node as another replica of the same primary
