@@ -1,8 +1,10 @@
 # https://www.elastic.co/
+# https://grafana.com/
 
 # Technologies
 * Elasticsearch (JSON search engine)
 * Kibana (GUI for elasticsearch)
+* Grafana (Alternate GUI for elasticsearch, not part of the normal stack, but included for completeness)
 
 # About
 Elasticsearch is a distributed, open source search and analytics engine for all types of data, including textual, numerical, geospatial, structured, and unstructured. Elasticsearch is built on Apache Lucene and was first released in 2010 by Elasticsearch N.V. (now known as Elastic). Known for its simple REST APIs, distributed nature, speed, and scalability, Elasticsearch is the central component of the Elastic Stack, a set of open source tools for data ingestion, enrichment, storage, analysis, and visualization. Commonly referred to as the ELK Stack (after Elasticsearch, Logstash, and Kibana), the Elastic Stack now includes a rich collection of lightweight shipping agents known as Beats for sending data to Elasticsearch.
@@ -16,6 +18,8 @@ https://www.elastic.co/guide/en/elasticsearch/reference/6.4/index.html
     *  Lucene 5-minute Primer http://www.lucenetutorial.com/lucene-query-syntax.html
     *  Lucene Official http://lucene.apache.org/core/3_5_0/queryparsersyntax.html
     *  IBM Lucene Query terminology https://www.ibm.com/support/knowledgecenter/SSSH5A_8.0.1/com.ibm.rational.clearquest.user_web.doc/topics/c_fts_term_syntax.htm
+
+* Grafana docs https://grafana.com/docs/
 
 ### Videos
 #### Core

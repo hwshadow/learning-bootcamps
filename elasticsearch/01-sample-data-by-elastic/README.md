@@ -10,6 +10,8 @@ wget -O ./logs.jsonl.gz https://download.elastic.co/demos/kibana/gettingstarted/
 ```
 > the following assumes you have the local docker environment up and running
 
+> also being familar with JQ is helpful, see the module on that.
+
 2) insert samples into elasticsearch (_without mappings_)
 ```bash
 curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/bank/account/_bulk?pretty' --data-binary @accounts.json

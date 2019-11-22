@@ -20,3 +20,14 @@ services:
      - elastic-learn
     ports:
       - "5601:5601"
+  grafana-learn:
+    image: grafana/grafana:latest
+    volumes:
+      - ./docker/grafana/grafana.ini:/usr/share/grafana/conf/defaults.ini
+      - ./docker/grafana/grafana.db:/var/lib/grafana/grafana.db
+    environment:
+      - TEST=1
+    depends_on:
+     - elastic-learn
+    ports:
+      - "3000:3000"
