@@ -1,16 +1,15 @@
 # Interfaces avaliable for search
-Elasticsearch is built on top of lucene.  In generally a simple lucene query looks like this
+Elasticsearch is built on top of lucene.  A simple lucene query looks like this
 ```
 fieldName:"termToSearchFor"
 ```
-We will explore the power of lucene a little later.
 
 There are 4 common methods of executing queries against Elasticsearch (outside of GUIs like kibana and grafana):
 ## [URI search](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/search-uri-request.html) via Lucene query
-|`q` parameter is a URL-encoded Lucene query
-|`size` parameter sets the max documents returned (up to 10k)
-|`sort` parameter (not shown) is useful for sorting, in the form of `fieldName:asc/fieldName:desc`
-|good for quick and simple lucene queries
+- `q` parameter is a URL-encoded Lucene query
+- `size` parameter sets the max documents returned (up to 10k)
+- `sort` parameter (not shown) is useful for sorting, in the form of `fieldName:asc/fieldName:desc`
+- these are good for quick ad-hoc queries
 
 ```bash
 curl -XGET 'localhost:9200/shakespeare/_search?size=1&q=text_entry:"arms"&pretty'
@@ -63,7 +62,7 @@ curl -XGET -H 'Content-type: application/json' 'localhost:9200/shakespeare/_sear
         }
     }
 }'
-# query dsl style
+#>> query dsl style
 
 #     "query" : {
 #         "query_string" : {
@@ -71,7 +70,7 @@ curl -XGET -H 'Content-type: application/json' 'localhost:9200/shakespeare/_sear
 #         }
 #     }
 # }'
-# lucene style (note the query_string block)
+#>> lucene style (note the query_string block)
 
 #result
 {
@@ -193,12 +192,10 @@ curl -H "Content-Type: application/x-ndjson" -XGET 'localhost:9200/_msearch?pret
 ## [Scroll query](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/search-request-scroll.html)
 - used to return large data sets, over 10k documents
 - kind of a pain to execute from bash
-- 3rd-party library contain 'sugar' which make these type of queries a breeze (logstash can also do this)
+- 3rd-party libraries contain 'sugar' which make these type of queries a breeze (logstash can also do this)
 - not going to elaborate on this (sorry, eventually, just not yet); beware of dragons
 
-# Some practical application
-Thoughout this section I will attempt to show both the lucene query and query dsl variants.  Keep in mind, you can execute a raw lucene query from any JSON search method using the [query_string](https://www.elastic.co/guide/en/elasticsearch/reference/6.5/query-dsl-query-string-query.html) full-text search block.
-
+# Application
 ```json
 {
   "query_string" : {
@@ -209,7 +206,7 @@ Thoughout this section I will attempt to show both the lucene query and query ds
 Keep in mind the queries below are not optimized for performance, this is not an exhaustive list, and we can't cover every permutation; just enough to get you started. For complete dsl reference see [query dsl](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/query-dsl.html).  High-level be aware of:
 
 ## [Full-text queries](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/full-text-queries.html)
-usually used for running full text queries on full text fields like the body of an email. They understand how the field being queried is analyzed and will apply each field’s analyzer (or search_analyzer) to the query string before executing
+ usually used for running full text queries on full text fields like the body of an email. They understand how the field being queried is analyzed and will apply each field’s analyzer (or search_analyzer) to the query string before executing
 
 |type|description|
 |---|---|
@@ -222,7 +219,7 @@ usually used for running full text queries on full text fields like the body of 
 |simple_query_string|A simpler, more robust version of the query_string syntax suitable for exposing directly to users.|
 
 ## [Term-level queries](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/term-level-queries.html)
-will analyze the query string before executing, the term-level queries operate on the exact terms that are stored in the inverted index
+analyze the query string before executing, the term-level queries operate on the exact terms that are stored in the inverted index
 
 |type|description|
 |---|---|

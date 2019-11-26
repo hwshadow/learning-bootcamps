@@ -2,10 +2,10 @@
 
 # [Cluster](https://www.elastic.co/guide/en/elasticsearch/reference/6.2/_basic_concepts.html)
 * a distributed, highly avaliable, and optionally redundant, datastore/search engine that scales horizontally with commodity nodes
-* a quorum controls who is active in the cluster and elects cluster leaders
+* a quorum controls who is actively participating in the cluster and also the election of a cluster leader
 * communication is achieved via both REST API and internal Transport Protocol.
 
-check basic cluster health with
+return basic cluster health with
 
 ```bash
 # Cluster health
@@ -28,6 +28,8 @@ curl -sk 'http://localhost:9200/_cluster/health?pretty'
   "active_shards_percent_as_number" : 50.98039215686274
 }
 ```
+
+check for bottlenecks
 
 ```bash
 # Thread pools
@@ -52,7 +54,7 @@ dGc_XMg   write                    0     0        0
 ```
 #### status explained
 
-ref: _cluster/health API key "status"
+_cluster/health "status"
 
 |color|description|
 |-|-|
@@ -60,28 +62,29 @@ ref: _cluster/health API key "status"
 |yellow|All primary are avaliable|
 |red|Not all primary shards are avaliable|
 
-* It is normal for elasticsearch to briefly cycle from through periods of brief "yellow" and "red" status; generally occurs when
+* it is **normal** for elasticsearch to briefly cycle through periods of brief `yellow` and `red` status; generally occurs when
   - new indices are created
   - shards are being rebalanced
-  - a node left the cluster and the cluster is healing
-* It is not desired for elasticsearch to persist in a "red" state, this means a subset or all of our data is unavaliable.
-* In "production" environments it is not desired for a cluster to persist in a "yellow" state, this means we have not met all of our defined replication requirements.  If we experience corruption/destruction/loss of the primary shard we will experience data loss.
-* Our single-node test elasticsearch cluster is "yellow" which is normal, and we will learn why a little later.
+  - a node leaves the cluster and the cluster is under a "healing" workload
+* **NOT** desired for elasticsearch to persist in a `red` state, indicating a subset of our data is unavaliable
+* for "production" environments it is **NOT** desired for a cluster to persist in a `yellow` state, this means we have not our defined replication requirements.  In this state we are at increased risk for data loss, if corruption/loss of the primary shard was to occur
+* our single-node test elasticsearch cluster is "yellow" which is normal, and we will learn why a little later
 
 #### troubling signs
-in addition to a persistant non-green cluster status, these are signs of sickness
+in addition to persistant non-green cluster status, the following are also signs of sickness:
 * "number_of_nodes" not equal to the expected node count
-* "unassigned_shards" of more than zero, persisting (normal for our test cluster)
-* "relocating_shards" counter which is never zero
+* "unassigned_shards" greater than zero, persisting (normal for our single-node test cluster)
+* "relocating_shards" persistantly non-zero
 * increasing "rejected" counters within the thread_pool API
 
 # [Nodes](elastic.co/guide/en/elasticsearch/reference/current/modules-node.html)
 * a compute host with disk and storage joined to the cluster
-* can have one or more roles
+* can be assigbed one or more roles
+* a cluster is made up of 1 or more nodes, generally 3 is the smallest production cluster you would make.
 
-by default every node in the cluster can handle HTTP and Transport traffic
-* transport layer is used exclusively for communication between nodes and the Java TransportClient
-* HTTP layer is used only by external REST clients.
+by default, every node in the cluster can handle HTTP and Transport traffic
+* Transport-layer is used exclusively for communication between nodes and the Java TransportClient
+* HTTP-layer is used only by external REST clients (kibana, 3rd party libraries, etc)
 
 cluster membership and node status can be checked with
 ```bash
@@ -89,7 +92,10 @@ curl -sk 'http://localhost:9200/_cat/nodes?v' #?v&format=json for json-format
 ip        heap.percent ram.percent cpu load_1m load_5m load_15m node.role master name
 127.0.0.1           40          29   0    0.01    0.02     0.00 mdi       *      dGc_XMg
 ```
-the master designation (signified by `*`) is the "elected" cluster leader. our test cluster has only a single node, which handles all three primary role, including the master role. a slightly more complex cluster looks like this.
+the master designation (signified by `*`) shows the currently "elected" cluster leader. if you have no elected master, that is bad.
+the test cluster has only a single node, which handles three role: master, data, and ingest.
+
+a slightly more complex cluster consisting of 3 masters and 3 data/ingest nodes.  demuxing roles from nodes, allowing them to specialize is a good pattern
 ```bash
 curl -sk 'http://es-master2-test:9200/_cat/nodes?v' #?v&format=json for json-format
 ip            heap.percent ram.percent cpu load_1m load_5m load_15m node.role master name
@@ -100,15 +106,19 @@ ip            heap.percent ram.percent cpu load_1m load_5m load_15m node.role ma
 192.168.1.96           55          99   5    1.78    1.48     1.47 di        -      es-data2-test
 192.168.1.91            5          98   0    0.12    0.07     0.06 m         -      es-master1-test
 ```
-consisting of 3 masters (one is authoritative) and 3 data/ingest nodes.
+
 
 # [Roles](elastic.co/guide/en/elasticsearch/reference/current/modules-node.html)
-* [master eligible](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-node.html#master-node) - a node which controls the cluster, responsible for cluster state.  only one master is authoritative at any point in time, all masters contribute to cluster quorum.
+* [master eligible](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-node.html#master-node) -
+  - a node which controls the cluster
+  - responsible for cluster state
+  - only one master is authoritative at any point in time
+  - all masters contribute to cluster quorum
 * [data](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-node.html#data-node) - nodes that are responsible for persisting our data
 * [ingest](https://www.elastic.co/guide/en/elasticsearch/reference/current/ingest.html) - nodes which can apply transformations and enrichment to documents before indexing (slimmed down, in-cluster logstash). good for ingest heavy workloads.
 * [cordinating node](elastic.co/guide/en/elasticsearch/reference/current/modules-node.html#coordinating-node) - a node which handles client requests. the first responser when it comes to things like searches, aggregations, etc.  the cordinating node terminates a client request: performing/coordinating the needed operation, appling any reductions/transformation/cleanup, and returning a response. by default every node is implicitly a coordinating node.
-* [query](elastic.co/guide/en/elasticsearch/reference/current/modules-node.html#coordinating-node) - a dedicated cordinating node.  serves to buffer the important master, data, and ingest nodes from large and intensive queries which could incapacitate busy nodes. when nodes drop out of the cluster you can have a cascading failure, beginning with increased pressure to remaining nodes which keel over, rinse and repeat until you reach sadness.
-* [machine learning](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-node.html#ml-node) - a node dedicated to execution of machine learning jobs avaliable as a premium feature in x-pack
+* [query](elastic.co/guide/en/elasticsearch/reference/current/modules-node.html#coordinating-node) - a dedicated cordinating node.  serves to shield the load barring Nodes from large and intensive queries which could incapacitate them. when nodes drop out of the cluster you can have a cascading failure, beginning with increased pressure to remaining nodes, which keel over, rinse and repeat until you are very sad.
+* [machine learning](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-node.html#ml-node) - a node dedicated to execution of machine learning jobs avaliable as a premium feature in x-pack (not covered here)
 
 
 # [Index](https://www.elastic.co/guide/en/elasticsearch/reference/6.2/_basic_concepts.html#_indexs)
@@ -116,14 +126,14 @@ consisting of 3 masters (one is authoritative) and 3 data/ingest nodes.
 
 # [Index Alias](https://www.elastic.co/guide/en/elasticsearch/reference/6.2/indices-aliases.html)
 * an abstraction layer in front of an index or group indices
-* can apply pre-flight query logic to the nested index/indices
+* can apply pre-flight query logic to index/indices which are nested by an alias
 * can make OPS life easier
 
 # [Document](https://www.elastic.co/guide/en/elasticsearch/reference/6.2/_basic_concepts.html#_document)
 * a basic unit of information
 * tied to an index
 * stored in a shard
-* JSON format
+* structured in a JSON format
 * indexed by a unique ID "_id"
 
 a sample document from the bank index
@@ -154,21 +164,21 @@ a sample document from the bank index
 # [Shards](https://www.elastic.co/guide/en/elasticsearch/reference/6.2/_basic_concepts.html#getting-started-shards-and-replicas)
 * a physical bucket of data
 * each index is made up of one or more shards
-* shards partition data and workload throughout the distributed cluster
+* shards partition data and workload within the distributed cluster
 * a shards gets associated with single node
 * two types: primary and replica
 
 #### example index shard allocation
-with 3 shards and 2 replicas
+set to 3 shards and 2 replicas
 
 |||||
 |---|---|---|---|
-| s1p  | s2p  | s3p   | the authorative copies partitions of data |
+| s1p  | s2p  | s3p   | the authorative copy of data |
 | s1r1  | s2r1  | r3r1   | a secondary copy of data |
 | s1r2  | s2r2  | s3r2   | a tertiary copy of data |
 ||||||
 
-check out the shards in a cluster for the index `bank`
+check out the shard layout for the index `bank`
 ```bash
 curl -sk 'http://localhost:9200/_cat/shards/bank?v' | sort #?v&format=json for json-format
 bank  0     p      STARTED     197  102kb 127.0.0.1 dGc_XMg
@@ -183,24 +193,25 @@ bank  4     p      STARTED     201 95.2kb 127.0.0.1 dGc_XMg
 bank  4     r      UNASSIGNED
 index shard prirep state      docs  store ip        node
 ```
-Notice how all the `r` replica shards are mark as `UNASSIGNED`, this is be cause our index has a replication factor of 1, but the test cluster only has a single member.  Shard1Replica1 can't live on the same node as Shard1Primary; since we have no second node we can't place (allocate) the replicas.  This is why our cluster is perpetually in a "yellow" status.  Maximum replica count for an index is `Data node count - 1`.
+notice all the `r` replica shards are mark as `UNASSIGNED`, this is because the index has a replication factor of 1, but the cluster only has a single member.  Shard1Replica1 can't live on the same node as Shard1Primary; since we have no second node we can't place (allocate) the replicas.  This is why the test cluster is perpetually in a "yellow" status.  Maximum replica count for an index is `Data node count - 1`.
 
 #### shard types
 * **primary shard**
-  - always at least N shards in the cluster per index shard designation
-  - multiple primary shards for the same index can exist on the same node; though not optimal
+  - N shards in the cluster per configurations; at minimum one
+  - multiple primary shards for the same index can exist on the same node; though not optimal as they will compete for resources
   - authorative for data
-  - when lost a replica is promote to primary status, and a new replica is seeded
-  - writes funnel through primaries, replicas are updated as needed from primaries
-  - primaries can serve read operations
+  - when a primary is lost a replica is promote to primary status, then a new replica is seeded elsewhere
+  - writes are funneled through primaries, replicas are updated as needed from primaries
+  - primaries can also serve read operations
 
 * **replica shard**
-  - a set of replicas are generated and distributed across the cluster for according to the replication count specified
-  - cannot exist on the same node as the primary
-  - cannot exist on the same node as another replica of the same primary
-  - each replica set increase reliablity, but decrease avaliable storage and provides increased ingestion and recovery workload
-  - having more replicas generally increase search performance
-  - replicas can only serve read/recovery operations
+  - a set of replicas are generated and distributed across the cluster according to the replication configuration specified
+  - a replica of the same shard cannot exist on the same node as the primary shard
+  - a replica cannot exist on the same node as another replica of the same shard
+  - each replica set increases reliablity, but decrease avaliable storage. more sets equal increased ingestion and recovery workload
+  - having more replicas generally increases search performance
+  - replicas serve read/recovery operations
+  - an index can have zero replicas if desired
 
 view shard and replication settings for the `bank` index
 ```bash
@@ -210,10 +221,10 @@ curl -sk 'http://localhost:9200/bank/_settings?include_defaults=true&pretty' | j
   "number_of_replicas": "1"
 }
 ```
-the settings above require a minimum of 5 nodes, to maintain green healthy cluster.
+the settings above requires a minimum of 5 nodes, to maintain green healthy cluster.
 
 # Fields
-* namespaces inside a JSON document
+* are namespaces inside a JSON document
 * have an associated type
-* can be index-only, index+store, store-only
-* can be searched if indexing allows
+* can be ingested as index-only, index+store, store-only
+* can be searched if indexing allows (index-only, index+store)

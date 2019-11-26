@@ -2,6 +2,8 @@
 
 1) download samples
 
+> the samples below are already downloaded, and committed to the repository
+
 ```bash
 #!/bin/bash
 wget -O ./shakespeare_6.0.json https://download.elastic.co/demos/kibana/gettingstarted/shakespeare_6.0.json
@@ -24,6 +26,8 @@ curl -H 'Content-Type: application/json' -XPUT 'localhost:9200/modsec' --data-bi
 curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/modsec/_bulk?pretty' --data-binary @modsec_normalized.json
 ```
 
+> please note the "Content-Type" header is required for almost all elasticsearch API calls, with the except of HTTP GETs
+
 4) verify data in elasticsearch
 ```bash
 curl 'localhost:9200/_cat/indices?v'
@@ -41,7 +45,7 @@ yellow open   modsec              nbGOoglzQaaEf5johkoSbQ   5   1          1     
 ```
 
 # inspecting mappings
-> because we did not specify an explicit mapping, it was introspected from the first occurrence of each field indexed to the 'shakespeare' index.  documents not matching this mapping will fail to index.
+> we did not specify an explicit mapping, so it was introspected from the first occurrence of each field indexed to the 'shakespeare' index.  subsequent documents not matching this introspected mapping will fail to index.
 
 
 ```bash
@@ -119,6 +123,8 @@ curl 'localhost:9200/shakespeare/_mapping?pretty'
 ```
 
 # searching an index
+the simplest search possible, give me three documents. gives a taste of the API; more on this later.
+
 ```bash
 curl 'localhost:9200/shakespeare/_search?size=3&pretty'
 ```
