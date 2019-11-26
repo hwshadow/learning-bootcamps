@@ -352,7 +352,7 @@ Ahhh, the field is not indexed which means it is not searchable...
 Lets try the `@request` field
 ```bash
 curl -sk 'localhost:9200/modsec/_mapping?pretty' | jq '.modsec.mappings.doctype.properties | .["@request"] | .index != false'
-trues
+true
 ```
 
 Yep it is indexed, let's try the same thing.
@@ -368,7 +368,7 @@ Yep it is indexed, let's try the same thing.
 ```json
 {"bool":{"must":[{"query_string":{"query":"@request:%645&vars","analyze_wildcard":true,"default_field":"*"}},{"range":{"@timestamp":{"gte":1565670037521,"lte":1574096829530,"format":"epoch_millis"}}}],"filter":[],"should":[],"must_not":[]}}
 ```
-s
+
 ```bash
 curl -H "Content-Type: application/x-ndjson" -XGET 'localhost:9200/_msearch?pretty' --data-binary '
 {"index" : "modsec"}
